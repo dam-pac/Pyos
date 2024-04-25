@@ -1,5 +1,7 @@
 import os
 import sqlite3
+from datetime import datetime
+prompt = "[===: "
 def delete_file(file_name):
     try:
         os.remove(f"{os.path.abspath(file_name)}")
@@ -42,19 +44,21 @@ def login():
             username = input("LOGIN: ")
             password = input("PASSWORD: ")
             for i in users:
-                if username == i:
-                    login_suc = True
+                if username == i[0]:
                     cursor.execute('SELECT password FROM users WHERE username = ?', (username,))
                     passworddb = cursor.fetchall()
                     for i in passworddb:
-                        if i == password:
+                        if i[0] == password:
+                            clear()
                             print(f"Welcome to the PYOS {username}!")
                             return [username, True]
+                        else:
+                            print("Login program error: 4: PASSWORD_INCORRECT")
                 else:
-                    login_suc = False
+                    print("Login program error: 3: USERNAME_NOT_FOUND")
     except sqlite3.OperationalError:
         # создание пользователя
-        print("Creating users to this PYOS...")
+        print("Creating user to this PYOS...")
         print("WELCOME to the USERCREATOR tool! == Usercreator program start automatically ==")
         _ = True
         while _ == True:
@@ -64,7 +68,7 @@ def login():
                 CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY,
                 username TEXT NOT NULL,
-                password TEXT NOT NULL,
+                password TEXT NOT NULL
                 )
                 ''')
             connection.commit()
@@ -73,3 +77,5 @@ def login():
             connection.close()
             login()
             return
+def time_cur():
+    return datetime.now().strftime("%H:%M:%S")
