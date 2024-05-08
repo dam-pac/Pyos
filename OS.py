@@ -1,3 +1,4 @@
+from ast import Delete
 import os
 import sqlite3
 from datetime import datetime
@@ -41,6 +42,7 @@ def login():
         users = cursor.fetchall()
         _ = True
         while _ == True:
+            clear()
             username = input("LOGIN: ")
             password = input("PASSWORD: ")
             for i in users:
@@ -79,3 +81,28 @@ def login():
             return
 def time_cur():
     return datetime.now().strftime("%H:%M:%S")
+
+def command_prompt():
+    while True:
+        clear()
+        print(f"""    -----> Time: {time_cur()} \n
+        ============================== \n
+        ||  COMMAND PROMPT PROGRAM  || \n
+        ============================== \n
+        """)
+        print("For the list of commands, type => 'cmds' or 'lc' \n For the help information, type => 'help' or '?'")
+        command = input(f"\n\n    {prompt}")
+        if command == "":
+            pass
+        elif command == "cwd":
+            print(cwd())
+        
+        elif command == "TEST":
+            break
+        elif command == 'explorer':
+            os.system('python explorer.py')
+        elif command == 'test_app':
+            os.system('python app.py')
+            print()
+def autostart():
+    pass
